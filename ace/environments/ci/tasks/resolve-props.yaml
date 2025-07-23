@@ -6,6 +6,7 @@ spec:
   params:
     - name: is-source-directory
   results:
+    - name: release-name            # <-- ADD THIS
     - name: is-project
     - name: is-application-name
     - name: is-release-name
