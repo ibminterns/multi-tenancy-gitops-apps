@@ -51,3 +51,4 @@ resources:
 - tasks/resolve-props.yaml
 # - triggerbindings/ace-integration-server.yaml
 # - triggertemplates/ace-integration-server.yaml
+- build.yaml 
