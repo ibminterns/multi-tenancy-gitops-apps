@@ -13,7 +13,7 @@ spec:
   project: applications
   source:
     path: apic/environments/single-cluster/config
-    repoURL: https://github.com/ibminterns/multi-tenancy-gitops-apps
+    repoURL: ${GIT_BASEURL}/${GIT_ORG}/${GIT_GITOPS_APPLICATIONS}
     targetRevision: ${GIT_GITOPS_APPLICATIONS_BRANCH}
   syncPolicy:
     automated:

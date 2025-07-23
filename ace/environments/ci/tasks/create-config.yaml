@@ -36,7 +36,7 @@ spec:
     - name: branch_name
       type: string
   results:
-    - description: ""
+    - description: " Emits list of Config CRs<br/>"
       name: configurations
   steps:
     - name: setup-configuration
