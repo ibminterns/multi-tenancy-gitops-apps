@@ -2,6 +2,8 @@ apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
   name: sh-tools
+  namespace: ci          # make sure this matches your NS
+
 spec:
   output:
     to:
