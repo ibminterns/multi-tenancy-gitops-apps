@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
-
 set -eo pipefail
 
-# Check variables
-if [ -z ${TOKEN_SECRET_NAME} ]; then echo "Please set TOKEN_SECRET_NAME when running script"; exit 1; fi
-if [ -z ${TOKEN} ]; then echo "Please set TOKEN when running script"; exit 1; fi
+# ────────────────────────────────
 
+: "${TOKEN_SECRET_NAME:?Please set TOKEN_SECRET_NAME when running script}"
+: "${TOKEN:?Please set TOKEN when running script}"
+
+# ───────────────────────────────
 SEALED_SECRET_NAMESPACE=${SEALED_SECRET_NAMESPACE:-sealed-secrets}
-SEALED_SECRET_CONTOLLER_NAME=${SEALED_SECRET_CONTOLLER_NAME:-sealed-secrets}
+SEALED_SECRET_CONTROLLER_NAME=${SEALED_SECRET_CONTROLLER_NAME:-sealed-secrets-controller}
 
-envsubst < gitops-repo-token-secret-template.yaml | kubeseal \
+
+envsubst < gitops-repo-token-secret-template.yaml |
+kubeseal \
+  --controller-name "${SEALED_SECRET_CONTROLLER_NAME}" \
+  --controller-namespace "${SEALED_SECRET_NAMESPACE}" \
   --scope cluster-wide \
-  --controller-name=${SEALED_SECRET_CONTOLLER_NAME} \
-  --controller-namespace=${SEALED_SECRET_NAMESPACE} \
-  -o yaml > github-user-token-secret-${TOKEN_SECRET_NAME}.yaml
+  --format yaml \
+  > "github-user-token-secret-${TOKEN_SECRET_NAME}.yaml"
+
+echo "✔︎ SealedSecret written to github-user-token-secret-${TOKEN_SECRET_NAME}.yaml"
