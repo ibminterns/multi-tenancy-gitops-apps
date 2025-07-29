@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: ace-config-pvc
 spec:
-  storageClassName: ibmc-file-gold-gid
+  storageClassName: ocs-external-storagecluster-cephfs
   accessModes:
   - ReadWriteMany
   resources:
