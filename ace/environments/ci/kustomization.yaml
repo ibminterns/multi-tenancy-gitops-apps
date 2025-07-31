@@ -56,3 +56,4 @@ resources:
   - secrets/git-ssh-pk-ace-infra-at-github.yaml
   - secrets/git-ssh-pk-ace-config-at-github.yaml
   - secrets/git-ssh-pk-multi-tenancy-gitops-apps-at-github.yaml
+  - secrets/gitops-repo-pk-secret-create-customer-at-github.yaml
