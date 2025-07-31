@@ -54,6 +54,7 @@ spec:
           value: "true"
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: git-clone
       workspaces:
         - name: output
@@ -71,6 +72,7 @@ spec:
           value: "true"
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: git-clone
       workspaces:
         - name: output
@@ -88,6 +90,7 @@ spec:
           value: "true"
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: git-clone
       workspaces:
         - name: output
@@ -103,6 +106,7 @@ spec:
         - clone-is-source-repo
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: resolve-props
       workspaces:
       - name: input
@@ -120,6 +124,7 @@ spec:
         - resolve-props
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: build-bar
       workspaces:
       - name: workspace
@@ -142,6 +147,7 @@ spec:
         - build-bar
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: buildah
       workspaces:
         - name: source
@@ -184,6 +190,7 @@ spec:
         - clone-gitops-repo
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: build-integration-server
       workspaces:
         - name: input
@@ -194,6 +201,7 @@ spec:
     - name: create-pull-request
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: github-open-pr
       runAfter:
         - build-integration-server
