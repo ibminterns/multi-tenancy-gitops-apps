@@ -40,6 +40,7 @@ spec:
     - name: clone-ir-source-repo
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: git-clone
       params:
         - name: url
@@ -57,6 +58,7 @@ spec:
     - name: clone-ir-infra-repo
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: git-clone
       params:
         - name: url
@@ -74,6 +76,7 @@ spec:
     - name: clone-gitops-repo
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: git-clone
       params:
         - name: url
@@ -91,6 +94,7 @@ spec:
     - name: resolve-props
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: resolve-props
       params:
         - name: ir-source-directory
@@ -104,6 +108,7 @@ spec:
     - name: build-bar
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: build-bar
       params:
         - name: ir-source-directory
@@ -121,6 +126,7 @@ spec:
     - name: build-ir-image
       taskRef:
         kind: ClusterTask
+        apiVersion: tekton.dev/v1beta1
         name: buildah
       params:
         - name: BUILD_EXTRA_ARGS
@@ -143,6 +149,7 @@ spec:
     - name: build-integration-runtime
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: build-integration-runtime
       params:
         - name: ir_manifest_template
@@ -187,6 +194,7 @@ spec:
     - name: create-pull-request
       taskRef:
         kind: Task
+        apiVersion: tekton.dev/v1beta1
         name: github-open-pr
       runAfter:
         - build-integration-runtime
