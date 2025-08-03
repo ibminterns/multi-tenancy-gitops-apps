@@ -1,41 +1,43 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: build-bar
+  name: build-bar-ir
 spec:
+  description: >
+    Builds an App Connect Enterprise BAR file from source.
+    Compatible with IntegrationRuntime pipelines.
   params:
-    - name: is-source-directory
+    - name: bar-file-name
+      description: The name of the output BAR file
       type: string
-      description: directory where ACE source is located, relative to workspace
-    - name: is-application-name
+    - name: application-name
+      description: The name of the application to package
       type: string
-      description: name of the application
-    - name: is-project
+    - name: project-folders
+      description: Comma-separated list of ACE project folders to include
       type: string
-      description: list of projects
-
+  workspaces:
+    - name: source
+      description: Workspace containing the ACE source
   steps:
-    - image: icr.io/appc-dev/ace-server:12.0.2.0-r2-20211115-123200-amd64
-      name: generate-bar
+    - name: build-bar
+      image: cp.icr.io/cp/appc/ace-server:12.0.10.0-r2  # or a newer tag if applicable
+      workingDir: $(workspaces.source.path)
       script: |
-        #!/usr/bin/env bash
+        #!/bin/bash
+        set -euo pipefail
 
-        rm -rf $(workspaces.workspace.path)/bars
-        mkdir -p $(workspaces.workspace.path)/bars
-        rm -rf $(workspaces.workspace.path)/source
-        
-        cp -r $(workspaces.workspace.path)/$(params.is-source-directory) $(workspaces.workspace.path)/source
+        echo "Switching to application folder: $(params.application-name)"
+        cd $(params.application-name)
 
-        . /opt/ibm/ace-12/server/bin/mqsiprofile
-
-        project_options=""
-        for project in $(params.is-project) ; do
-          project_options="--project ${project} ${project_options}"
+        IFS=',' read -ra PROJECTS <<< "$(params.project-folders)"
+        for project in "${PROJECTS[@]}"; do
+          echo "Preparing project: $project"
+          mkdir -p "$project/overrides"
         done
 
-        ibmint package \
-          --input-path $(workspaces.workspace.path)/source \
-          ${project_options} \
-          --output-bar-file $(workspaces.workspace.path)/bars/$(params.is-application-name).bar
-  workspaces:
-    - name: workspace
+        echo "Building BAR file..."
+        ibmint package --bar-file $(params.bar-file-name) --input-path $(IFS=','; echo "${PROJECTS[*]}")
+
+        echo "BAR file created:"
+        ls -lh $(params.bar-file-name)
