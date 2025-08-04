@@ -1,1 +1,4 @@
-resources: []
+resources: 
+- secrets/ibm-entitlement-key-secret.yaml
+  
+  

@@ -3,10 +3,13 @@
 set -eo pipefail
 
 # Check variables
-if [ -z ${IBM_ENTITLEMENT_KEY} ]; then echo "Please set IBM_ENTITLEMENT_KEY when running script"; exit 1; fi
+if [ -z ${IBM_ENTITLEMENT_KEY} ]; then
+  echo "Please set IBM_ENTITLEMENT_KEY when running script"
+  exit 1
+fi
 
 SEALED_SECRET_NAMESPACE=${SEALED_SECRET_NAMESPACE:-sealed-secrets}
-SEALED_SECRET_CONTOLLER_NAME=${SEALED_SECRET_CONTOLLER_NAME:-sealed-secrets}
+SEALED_SECRET_CONTROLLER_NAME=${SEALED_SECRET_CONTROLLER_NAME:-sealed-secrets}
 
 oc create secret docker-registry \
   ibm-entitlement-key \
@@ -20,6 +23,6 @@ oc create secret docker-registry \
     --dry-run=client -o yaml \
   | kubeseal \
     --scope cluster-wide \
-    --controller-name=${SEALED_SECRET_CONTOLLER_NAME} \
+    --controller-name=${SEALED_SECRET_CONTROLLER_NAME} \
     --controller-namespace=${SEALED_SECRET_NAMESPACE} \
     -o yaml > ibm-entitlement-key-secret.yaml
