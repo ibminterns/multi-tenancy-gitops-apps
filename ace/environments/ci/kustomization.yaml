@@ -60,3 +60,4 @@ resources:
   - secrets/git-ssh-pk-ace-config-at-github.yaml
   - secrets/git-ssh-pk-multi-tenancy-gitops-apps-at-github.yaml
   - secrets/git-ssh-pk-create-customer-at-github.yaml
+  - secrets/ibm-entitlement-key-secret.yaml
